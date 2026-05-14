@@ -1,26 +1,233 @@
 @import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+@import "@fontsource/sora/400.css";
+@import "@fontsource/sora/600.css";
+@import "@fontsource/sora/700.css";
+@import "@fontsource/sora/800.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+    --bg: #f4f4f8;
+    --bg-card: #ffffff;
+    --bg-subtle: #f0f0f5;
+    --border: #e2e2ec;
+    --border-strong: #c8c8d8;
+    --text: #0d0d14;
+    --text-muted: #6b6b80;
+    --text-light: #9898b0;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-light: #eef2ff;
+    --violet: #8b5cf6;
+    --violet-light: #f5f3ff;
+    --cyan: #06b6d4;
+    --cyan-light: #ecfeff;
+    --amber: #f59e0b;
+    --amber-light: #fffbeb;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --red: #ef4444;
+    --red-light: #fef2f2;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow: 0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.12), 0 4px 12px rgba(0,0,0,.06);
+    --shadow-xl: 0 24px 64px rgba(0,0,0,.16), 0 8px 24px rgba(0,0,0,.08);
+
+    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+    --gradient-cool: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
+    --gradient-mesh: radial-gradient(at 40% 20%, hsla(248,100%,74%,0.15) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsla(189,100%,56%,0.1) 0px, transparent 50%),
+                     radial-gradient(at 0% 50%, hsla(355,100%,93%,0.08) 0px, transparent 50%);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02","cv03","cv04","cv11";
+  }
+
+  .font-display {
+    font-family: 'Sora', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+
+  /* Selection */
+  ::selection { background: rgba(99,102,241,0.2); color: var(--text); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.94); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  @keyframes slideRight {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes pulse-ring {
+    0%   { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes gradient-shift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-in { animation-fill-mode: both; }
+  .fade-up    { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1); }
+  .fade-in-0  { animation: fadeIn 0.25s ease; }
+  .zoom-in-95 { animation: scaleIn 0.2s cubic-bezier(0.22,1,0.36,1); }
+  .slide-in-from-bottom-2 { animation: fadeUp 0.25s cubic-bezier(0.22,1,0.36,1); }
+
+  /* Gradient text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-warm {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glass card */
+  .glass {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.8);
+  }
+
+  /* Gradient border */
+  .gradient-border {
+    position: relative;
+    background: white;
+    border-radius: var(--radius);
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: calc(var(--radius) + 1px);
+    background: var(--gradient-primary);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .gradient-border:hover::before { opacity: 1; }
+
+  /* Noise overlay for depth */
+  .noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0.4;
+  }
+
+  /* Focus ring */
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  /* ── react-pdf text layer ──────────────────────────────────────────
+     The canvas renders everything (math, figures, fonts) perfectly.
+     The text layer sits on top — invisible but fully selectable.
+     This lets reviewers select equations by their surrounding text.
+  ────────────────────────────────────────────────────────────────── */
+  .react-pdf__Page {
+    position: relative !important;
+    line-height: 1 !important;
+  }
+  .react-pdf__Page canvas {
+    display: block;
+    /* Crisp rendering for HiDPI / retina screens */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  .react-pdf__Page__textContent {
+    position: absolute !important;
+    top: 0 !important; left: 0 !important;
+    width: 100% !important; height: 100% !important;
+    transform: none !important;
+    overflow: hidden;
+    /* Invisible but selectable — cursor shows caret on hover */
+    opacity: 1;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    pointer-events: all !important;
+  }
+  .react-pdf__Page__textContent span {
+    color: transparent !important;
+    position: absolute;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0% 0%;
+    /* No background by default — selection shows through */
+  }
+  .react-pdf__Page__textContent span::selection {
+    background: rgba(99, 102, 241, 0.25) !important;
+    color: transparent !important;
+  }
+  /* Annotation layer: hide default PDF annotations (links etc.)
+     so they don't interfere with our comment system */
+  .react-pdf__Page__annotations {
+    display: none !important;
+  }
+
+  /* Stagger children */
+  .stagger > * { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger > *:nth-child(5) { animation-delay: 240ms; }
 }
