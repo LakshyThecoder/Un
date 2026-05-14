@@ -50,7 +50,7 @@ export async function computeReviewerMatches(
     ssByTopic,
     ssByTitle,
     oaByTopic,
-    oaByTitle,
+    oaByField,
   ] = await Promise.all([
     searchPapers(titleQuery, 25).catch(e => { console.warn('[Match] SS papers/title:', e); return [] as SSPaper[] }),
     searchPapers(fieldQuery,  20).catch(e => { console.warn('[Match] SS papers/field:', e); return [] as SSPaper[] }),

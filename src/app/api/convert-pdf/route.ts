@@ -24,15 +24,15 @@ export async function POST(req: NextRequest) {
     const pdfBuffer = await pdfRes.arrayBuffer()
 
     // ── 2. Parse with pdfjs-dist (no worker needed in Node) ───────────
-    // We import dynamically to avoid bundler issues with the worker.
-    // `GlobalWorkerOptions.workerSrc = ''` disables the background worker.
-    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs' as never) as {
-      getDocument: (src: ArrayBuffer) => { promise: Promise<PDFDocumentProxy> }
+    // Dynamic import lets the bundler skip this at compile time.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const pdfjsLib = require('pdfjs-dist/build/pdf.min.mjs') as {
+      getDocument: (src: { data: ArrayBuffer }) => { promise: Promise<PDFDocumentProxy> }
       GlobalWorkerOptions: { workerSrc: string }
     }
     pdfjsLib.GlobalWorkerOptions.workerSrc = ''
 
-    const pdfDoc: PDFDocumentProxy = await pdfjsLib.getDocument(pdfBuffer).promise
+    const pdfDoc: PDFDocumentProxy = await pdfjsLib.getDocument({ data: pdfBuffer }).promise
     const html = await convertToHtml(pdfDoc)
     await pdfDoc.destroy()
 
